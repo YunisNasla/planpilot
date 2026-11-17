@@ -4,7 +4,7 @@
 
 Type what you need in plain English ("move my dentist appointment to Thursday at 10:30", "clear out my completed tasks") and PlanPilot actually does it. Claude reads your request and your current tasks and events, writes a structured plan, PlanPilot checks that plan, asks you before deleting anything, then runs it against a real SQLite database and logs every step.
 
-- **Live demo:** `<your Streamlit URL>`
+- **Live demo:** https://planpilot-cs4680.streamlit.app/ (click **🔑 Set API key** in the sidebar and paste your own Anthropic key)
 - **Demo video:** `<your YouTube link>`
 
 ## The problem
@@ -132,6 +132,6 @@ Visitors click **🔑 Set API key** in the sidebar and paste their own Anthropic
 ## Submission checklist
 
 - [ ] GitHub repo URL
-- [ ] Deployed Streamlit URL (test it in an incognito window with your own key)
+- [x] Deployed Streamlit URL: https://planpilot-cs4680.streamlit.app/ (test it in an incognito window with your own key)
 - [ ] 1 to 2 minute demo video (YouTube, unlisted is fine)
 - [ ] Submitted through the Google Form

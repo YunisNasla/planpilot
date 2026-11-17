@@ -238,19 +238,29 @@ def render_log():
                        file_name=f"planpilot-audit-{ss.log.session_id}.jsonl", mime="application/json")
 
 
-@st.dialog("Anthropic API key")
+def close_key_dialog():
+    ss.key_dialog_open = False
+
+
+@st.dialog("Anthropic API key", on_dismiss=close_key_dialog)
 def key_dialog():
-    key = st.text_input("API key", type="password", placeholder="sk-ant-...")
-    st.caption("Kept only in this browser session's memory. Never saved or logged. "
-               "Get a key at https://console.anthropic.com")
-    save, clear = st.columns(2)
-    if save.button("Save", type="primary", width="stretch"):
+    # a form sends the typed value together with the click; a plain button can arrive before the pasted text
+    with st.form("key_form", border=False):
+        key = st.text_input("API key", type="password", placeholder="sk-ant-...")
+        st.caption("Kept only in this browser session's memory. Never saved or logged. "
+                   "Get a key at https://console.anthropic.com")
+        save, clear = st.columns(2)
+        saved = save.form_submit_button("Save", type="primary", width="stretch")
+        cleared = clear.form_submit_button("Clear", width="stretch")
+    if saved:
         if key.strip():
             ss.user_key = key.strip()
+            close_key_dialog()
             st.rerun()
         st.error("Paste a key first.")
-    if clear.button("Clear", width="stretch"):
+    if cleared:
         ss.pop("user_key", None)
+        close_key_dialog()
         st.rerun()
 
 
@@ -261,7 +271,7 @@ today = now().date()
 
 with st.sidebar:
     if st.button("Change API key" if ss.get("user_key") else "Set API key", icon="🔑", width="stretch"):
-        key_dialog()
+        ss.key_dialog_open = True
     st.caption("Key set ✓" if ss.get("user_key") else "No key set")
     st.divider()
     st.subheader("Try asking")
@@ -275,6 +285,9 @@ with st.sidebar:
     st.caption(f"Model: `{MODEL}`  \nRequests this session: {ss.requests}/{MAX_REQUESTS}  \n"
                f"Session: `{ss.log.session_id}`")
     st.caption("Your data lives in a private sandbox for this browser tab and resets when you refresh.")
+
+if ss.get("key_dialog_open"):  # flag keeps the dialog alive across reruns; opened outside the sidebar
+    key_dialog()
 
 st.title("🗓️ PlanPilot")
 st.caption("Tell it what you need in plain English. Claude plans the changes, PlanPilot checks them, "

@@ -105,3 +105,15 @@ def test_user_pasted_key_is_used(app, monkeypatch):
     at.chat_input[0].set_value("add buy milk").run()
     assert not at.exception
     assert "✅" in chat_text(at)
+
+
+def test_key_dialog_saves_and_clears(app):
+    at, _ = app
+    button(at, "Set API key").click().run()
+    at.text_input[0].input("  sk-ant-test  ")
+    button(at, "Save").click().run()
+    assert not at.exception
+    assert at.session_state["user_key"] == "sk-ant-test"
+    button(at, "Change API key").click().run()
+    button(at, "Clear").click().run()
+    assert "user_key" not in at.session_state

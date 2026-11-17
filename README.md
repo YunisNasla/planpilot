@@ -5,7 +5,6 @@
 Type what you need in plain English ("move my dentist appointment to Thursday at 10:30", "clear out my completed tasks") and PlanPilot actually does it. Claude reads your request and your current tasks and events, writes a structured plan, PlanPilot checks that plan, asks you before deleting anything, then runs it against a real SQLite database and logs every step.
 
 - **Live demo:** https://planpilot-cs4680.streamlit.app/ (click **🔑 Set API key** in the sidebar and paste your own Anthropic key)
-- **Demo video:** `<your YouTube link>`
 
 ## The problem
 
